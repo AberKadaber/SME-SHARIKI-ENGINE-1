@@ -1,7 +1,7 @@
 import java.lang.Math;
 
 public class CircleBorder implements Circle {
-    private int radius = 500;
+    private final int radius;
     private final Dot center;
 
     public CircleBorder(int r, int cx, int cy) {

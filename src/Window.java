@@ -7,7 +7,7 @@ public class Window extends JPanel {
     private final int width = 1000;
     private int height = 1000;
     private Timer timer;
-    private final int delay = 7;
+    private final int delay = 10;
 
     private final CircleBorder border = new CircleBorder();
     private final CircleElement element = new CircleElement(50, 200, 146);

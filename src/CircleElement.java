@@ -5,18 +5,24 @@ public class CircleElement implements Movable, Circle {
     private final Dot center;
     private final Vector a = new Vector(0, -1);
     private Vector v = new Vector(0, 0);
+    private final double energy;
     private int cnt = 0;
+    private double weight;
+    private final double g = 0.4;
+
 
     public CircleElement(int radius, int cx, int cy) {
         this.radius = radius;
         this.center = new Dot(cx, cy);
+        this.energy = weight * 10 * cy;
+        this.weight = g * Math.PI * radius * radius;
     }
 
     @Override
     public void move(int time) {
         cnt += 1;
         center.addVector(v.Mul(time));
-        if (cnt == 2) {
+        if (cnt == 4) {
             v.addVector(a.Mul(time));
             cnt = 0;
         }
@@ -43,9 +49,14 @@ public class CircleElement implements Movable, Circle {
         }
 //        System.out.println("cos(fi) " + fiRad);
 //        System.out.println("fi " + fi);
-//        v = v.Mul(1.052);
+//        v = v.Mul(1.1);
 //        System.out.println("v after: " + v);
 //        System.out.println();
+
+        System.out.println("expected: " + Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))));
+        System.out.println("got: " + v.getSize());
+        v = v.Mul(Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))) / v.getSize());
+        System.out.println();
     }
 
     @Override
@@ -58,7 +69,7 @@ public class CircleElement implements Movable, Circle {
     }
 
     @Override
-    public int getWeight() {
+    public double getWeight() {
         return 0;
     }
 

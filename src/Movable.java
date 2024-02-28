@@ -1,6 +1,6 @@
 public interface Movable {
     void move(int time);
     Dot getCenter();
-    int getWeight();
+    double getWeight();
     void changeDirection(Vector line);
 }

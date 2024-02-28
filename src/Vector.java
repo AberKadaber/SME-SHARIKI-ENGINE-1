@@ -16,6 +16,10 @@ public class Vector {
         return direction;
     }
 
+    public double getSize() {
+        return Math.sqrt(direction.getX() * direction.getX() + direction.getY() * direction.getY());
+    }
+
     public Vector Mul(double scale) {
         return new Vector((int) (direction.getX() * scale), (int) (direction.getY() * scale));
     }
