@@ -21,31 +21,32 @@ public class CircleElement implements Movable, Circle {
     @Override
     public void move(int time) {
         cnt += 1;
-        center.addVector(v.Mul(time));
+        center.addVector(v.constMul(time));
         if (cnt == 4) {
-            v.addVector(a.Mul(time));
+            v.addVector(a.constMul(time));
             cnt = 0;
         }
-
     }
 
     @Override
     public void changeDirection(Vector line) {
-        double b = line.getDirection().getX();
-        double c = line.getDirection().getY();
-        double fiRad = (b * v.getDirection().getX() + c * v.getDirection().getY()) / (
-                Math.sqrt(b * b + c * c) *
-                        Math.sqrt(Math.pow(v.getDirection().getX(), 2) + Math.pow(v.getDirection().getY(), 2)));
-        double fi = Math.PI - (Math.acos((fiRad)));
+        double cosFi =  - v.scalarMul(line) / (v.getSize() * line.getSize());
+        double sinFi = Math.sqrt(1 - cosFi * cosFi);
+        double cos2Fi = 2 * cosFi * cosFi - 1;
+        double sin2Fi = 2 * sinFi * cosFi;
+        double fi = Math.PI - (Math.acos((cosFi)));
+
 //        System.out.println("normal: " + line);
 //        System.out.println("v before: " + v);
-        boolean clock = v.getDirection().getX() * c - v.getDirection().getY() * b < 0;
+        boolean clock = v.vectorMul(line) < 0;
         if (clock) {
-            v = v.Rotate(-Math.PI + 2 * fi);
+//            v = v.rotate(-Math.PI + 2 * fi);
+            v = v.rotateByTrig(-cos2Fi, -sin2Fi);
 //            System.out.println("По часовой");
         } else {
 //            System.out.println("По часовой");
-            v = v.Rotate(-2 * fi + Math.PI);
+//            v = v.rotate(-2 * fi + Math.PI);
+            v = v.rotateByTrig(-cos2Fi, sin2Fi);
         }
 //        System.out.println("cos(fi) " + fiRad);
 //        System.out.println("fi " + fi);
@@ -55,7 +56,7 @@ public class CircleElement implements Movable, Circle {
 
         System.out.println("expected: " + Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))));
         System.out.println("got: " + v.getSize());
-        v = v.Mul(Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))) / v.getSize());
+        v = v.constMul(Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))) / v.getSize());
         System.out.println();
     }
 

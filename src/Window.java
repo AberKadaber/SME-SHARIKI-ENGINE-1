@@ -7,10 +7,11 @@ public class Window extends JPanel {
     private final int width = 1000;
     private int height = 1000;
     private Timer timer;
-    private final int delay = 10;
+    private final int delay = 7;
 
     private final CircleBorder border = new CircleBorder();
-    private final CircleElement element = new CircleElement(50, 200, 146);
+    private final CircleElement element = new CircleElement(50, 134, 250);
+    // Интересный баг: 50, 134, 250 прилипает к левой стене через некоторое время
 
     public Window() {
         frame = new JFrame("fall");
