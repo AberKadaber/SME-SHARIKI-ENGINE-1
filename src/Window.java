@@ -15,11 +15,7 @@ public class Window extends JPanel {
     private int colorPos = 0;
 
     private final CircleBorder border = new CircleBorder();
-    private final CircleElement element1 = new CircleElement(50, 134, 250);
-    private final CircleElement element2 = new CircleElement(50, -134, 250);
-    private final CircleElement element3 = new CircleElement(50, 134, -250);
-    private final CircleElement element4 = new CircleElement(50, 158, 250);
-    private final CircleElement element5 = new CircleElement(50, 300, 14);
+    private final CircleElement element = new CircleElement(50, 134, 250);
 
     // Интересный баг: 50, 134, 250 прилипает к левой стене через некоторое время
 
@@ -35,27 +31,19 @@ public class Window extends JPanel {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         timer = new Timer(delay, e -> {
-            for (CircleElement element : List.of(element1, element2, element3, element4, element5)) {
-                if (!border.intersection(element)) {
-                    element.move(1);
-                } else {
-                    Vector line = border.tangent(element);
-
-                    element.changeDirection(line);
-                    while (border.intersection(element)) {
-                        element.move(1);
-                    }
-                    colorPos = (colorPos + 1) % rainbow.length;
-
+            element.simulate(1);
+            if (border.intersection(element)) {
+                Vector directionToBorderCenter = border.tangent(element);
+                element.changeDirection(directionToBorderCenter);
+                while (border.intersection(element)) {
+                    Dot a = border.tangent(element).getDirection();
+                    element.move(new Vector(a.getX() / Math.abs(a.getX() + a.getY()), a.getY() / Math.abs(a.getX() + a.getY())));
                 }
-                repaint();
-
+                colorPos = (colorPos + 1) % rainbow.length;
             }
-
+            repaint();
         });
         timer.start();
-
-
     }
 
     private void drawCircle(Graphics g, Circle c, int w, Type t) {
@@ -96,12 +84,6 @@ public class Window extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawCircle(g, border, 3, Type.BORDER);
-        drawCircle(g, element1, 1, Type.INSIDE);
-        drawCircle(g, element2, 1, Type.INSIDE);
-        drawCircle(g, element3, 1, Type.INSIDE);
-        drawCircle(g, element4, 1, Type.INSIDE);
-        drawCircle(g, element5, 1, Type.INSIDE);
-
-
+        drawCircle(g, element, 1, Type.INSIDE);
     }
 }

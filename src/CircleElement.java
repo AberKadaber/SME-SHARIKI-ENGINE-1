@@ -1,5 +1,3 @@
-
-
 public class CircleElement implements Movable, Circle {
     private final int radius;
     private final Dot center;
@@ -19,7 +17,7 @@ public class CircleElement implements Movable, Circle {
     }
 
     @Override
-    public void move(int time) {
+    public void simulate(int time) {
         cnt += 1;
         center.addVector(v.constMul(time));
         if (cnt == 4) {
@@ -28,6 +26,10 @@ public class CircleElement implements Movable, Circle {
         }
     }
 
+    @Override
+    public void move(Vector moveVector) {
+        this.center.addVector(moveVector);
+    }
     @Override
     public void changeDirection(Vector line) {
         double cosFi = -v.scalarMul(line) / (v.getSize() * line.getSize());
