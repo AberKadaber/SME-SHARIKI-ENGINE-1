@@ -3,9 +3,9 @@
 public class CircleElement implements Movable, Circle {
     private final int radius;
     private final Dot center;
-    private final Vector a = new Vector(0, -1);
     private Vector v = new Vector(0, 0);
-    private final double energy;
+    private final Vector a = new Vector(0, -1);
+    private double energy;
     private int cnt = 0;
     private double weight;
     private final double g = 0.4;
@@ -14,8 +14,8 @@ public class CircleElement implements Movable, Circle {
     public CircleElement(int radius, int cx, int cy) {
         this.radius = radius;
         this.center = new Dot(cx, cy);
-        this.energy = weight * 10 * cy;
         this.weight = g * Math.PI * radius * radius;
+        this.energy = weight * 10 * cy;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CircleElement implements Movable, Circle {
 
     @Override
     public void changeDirection(Vector line) {
-        double cosFi =  - v.scalarMul(line) / (v.getSize() * line.getSize());
+        double cosFi = -v.scalarMul(line) / (v.getSize() * line.getSize());
         double sinFi = Math.sqrt(1 - cosFi * cosFi);
         double cos2Fi = 2 * cosFi * cosFi - 1;
         double sin2Fi = 2 * sinFi * cosFi;
@@ -57,7 +57,9 @@ public class CircleElement implements Movable, Circle {
         System.out.println("expected: " + Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))));
         System.out.println("got: " + v.getSize());
         v = v.constMul(Math.sqrt(2 * Math.abs((energy / weight - center.getY() * g))) / v.getSize());
-        System.out.println();
+//        System.out.println();
+//        System.out.println(energy);
+//        energy *= 0.5;
     }
 
     @Override
