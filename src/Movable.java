@@ -1,6 +1,13 @@
 public interface Movable {
-    void move(int time);
+    void simulate(int time);
+    /**
+     * Directly and immediately adds addend vector to center of Movable
+     *
+     * @param addend vector to be added
+     */
+    void move(Vector addend);
     Dot getCenter();
     double getWeight();
     void changeDirection(Vector line);
 }
+
