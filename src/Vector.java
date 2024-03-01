@@ -33,8 +33,6 @@ public class Vector {
     }
 
     public Vector rotateByAngle(double fi) {
-//        System.out.println(fi);
-//        System.out.println("cos: " + Math.cos(fi) + " sin: " + Math.sin(fi));
         return new Vector(
                 direction.getX() * Math.cos(fi) - direction.getY() * Math.sin(fi),
                 direction.getX() * Math.sin(fi) + direction.getY() * Math.cos(fi)

@@ -1,5 +1,5 @@
 public interface Movable {
-    void simulate(int time);
+    void simulate(double time);
     /**
      * Directly and immediately adds addend vector to center of Movable
      *
