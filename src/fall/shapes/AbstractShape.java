@@ -9,7 +9,7 @@ public abstract class AbstractShape implements Shape {
     private final Vector acceleration = new Vector(0, -10);
 
     private final double weight;
-    protected Dot center;
+    public Dot center; // TODO protected
 
     boolean isMovable;
     /*
@@ -31,7 +31,6 @@ public abstract class AbstractShape implements Shape {
         velocity.addVector(acceleration.constMul(time));
     }
 
-
     @Override
     public void update(AbstractShape other) {
         double deltaX = center.getX() - other.center.getX();
@@ -45,28 +44,32 @@ public abstract class AbstractShape implements Shape {
 
         double cosPhi = Math.abs(deltaX) / distanceBetweenCenters;
 
-        Vector v1 = velocity.rotateByTrig(cosPhi, sinPhi);
         Vector v2 = other.velocity.rotateByTrig(cosPhi, sinPhi);
 
-        double newV1_y = v1.getY();
         double newV2_y = v2.getY();
-        double vx1 = v1.getX();
         double vx2 = v2.getX();
         double w1 = weight;
         double w2 = other.weight;
 
-        double newV1_x = ((w1 - w2) * vx1 + 2 * w2 * vx2) / (w1 + w2);
-        double newV2_x = ((w2 - w1) * vx2 + 2 * w1 * vx1) / (w1 + w2);
+        double newV2_x = ((w2 - w1) * vx2) / (w1 + w2);
 
-        Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi);
         Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi);
 
-        if (isMovable) {
-            velocity = newV1;
-        }
         if (other.isMovable) {
             other.velocity = newV2;
         }
+    }
+
+    /**
+     * check if c лежит на отрезке [a, b]
+     *
+     * @param a first end of отрезок
+     * @param b second end of отрезок
+     * @param c dot to check
+     * @return <code>c</code> лежит на отрезке [a, b]
+     */
+    private boolean between(Dot a, Dot b, Dot c) {
+        return a.distance(c) <= a.distance(b) && b.distance(c) <= b.distance(a);
     }
 
     @Override
@@ -80,16 +83,12 @@ public abstract class AbstractShape implements Shape {
         List<Dot> myIntersection = intersect(k, b);
         List<Dot> otherIntersection = other.intersect(k, b);
 
-        double mySmallestDistanceToOtherDot = Math.min(
-                center.distance(otherIntersection.get(0)),
-                center.distance(otherIntersection.get(1)));
-
-        double otherSmallestDistanceToMyDot = Math.min(
-                other.center.distance(myIntersection.get(0)),
-                other.center.distance(myIntersection.get(1)));
-
-        return mySmallestDistanceToOtherDot +
-                otherSmallestDistanceToMyDot >
-                center.distance(other.center);
+        int cnt = 0;
+        for (Dot d : otherIntersection) {
+            if (between(myIntersection.getFirst(), myIntersection.get(1), d)) {
+                cnt += 1;
+            }
+        }
+        return cnt == 1;
     }
 }
