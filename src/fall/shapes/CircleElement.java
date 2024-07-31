@@ -10,8 +10,8 @@ import java.awt.*;
 public class CircleElement extends AbstractShape {
     private final Circle currentPosition;
 
-    CircleElement(int x, int y, int radius) {
-        Dot center = new Dot(x, y);
+    CircleElement(int cx, int cy, int radius) {
+        Dot center = new Dot(cx, cy);
         Circle circ = new Circle(radius, center);
         double weight = Math.PI * radius * radius;
         super(weight, center, true);
@@ -19,17 +19,26 @@ public class CircleElement extends AbstractShape {
     }
 
     @Override
-    public void draw(Graphics g, Color color) {
-        Dot center = currentPosition.getCenter();
-        double x = center.getX();
-        double y = center.getY();
-        g.drawOval((int) x, (int) y, (int) (currentPosition.getRadius() + x), (int) (currentPosition.getRadius() + y));
+    public void draw(Graphics g, Color color, int width, int height) {
+        g.setColor(color);
+
+        int r = currentPosition.getRadius();
+        int x = (int) (width / 2 + center.getX() - r);
+        int y = (int) (height / 2 - center.getX() - r);
+
+        g.drawOval(x, y, 2 * r, 2 * r);
+        g.fillOval(x, y, 2 * r, 2 * r);
     }
 
     @Override
     public List<Dot> intersect(double k, double b) {
-        return null;
-    }
+        double r = currentPosition.getRadius();
+        double dx = r * r / (1 + k * k);
+        double dy = r * r * k * k / (1 + k * k);
 
+        return List.of(
+                new Dot(center.getX() + dx, center.getY() + dy),
+                new Dot(center.getX() - dx, center.getY() - dy));
+    }
 }
 

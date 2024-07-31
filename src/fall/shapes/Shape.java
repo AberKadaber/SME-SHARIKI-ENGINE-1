@@ -24,8 +24,10 @@ public interface Shape {
      *
      * @param g Graphics to draw
      * @param color color of our shape
+     * @param width width of screen
+     * @param height height of screen
      */
-    void draw(Graphics g, Color color);
+    void draw(Graphics g, Color color, int width, int height);
 
     /**
      * @return intersection our shape with line <code>y = k * x + b</code>
