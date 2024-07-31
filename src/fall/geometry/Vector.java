@@ -7,10 +7,6 @@ public class Vector {
         this.direction = new Dot(x, y);
     }
 
-//    public Dot getDirection() {
-//        return direction;
-//    }
-
     public double getX() {
         return direction.getX();
     }

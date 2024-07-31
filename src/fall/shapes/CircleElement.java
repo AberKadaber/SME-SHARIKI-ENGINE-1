@@ -4,20 +4,19 @@ import fall.geometry.Circle;
 import fall.geometry.Dot;
 import fall.geometry.Vector;
 
+import java.util.List;
 import java.awt.*;
 
 
 public class CircleElement extends AbstractShape {
     private final Circle currentPosition;
 
-
     CircleElement(int x, int y, int radius) {
         Dot center = new Dot(x, y);
         Circle circ = new Circle(radius, center);
         double weight = Math.PI * radius * radius;
-        double CentralMomentOfInertia = weight * radius * radius / 2;
-        super(weight, CentralMomentOfInertia, center);
-        this.currentPosition = circ;
+        super(weight, center, true);
+        currentPosition = circ;
     }
 
     @Override
@@ -29,8 +28,9 @@ public class CircleElement extends AbstractShape {
     }
 
     @Override
-    public Dot intersect(double a, double b, double c) {
+    public List<Dot> intersect(double k, double b) {
         return null;
     }
+
 }
 
