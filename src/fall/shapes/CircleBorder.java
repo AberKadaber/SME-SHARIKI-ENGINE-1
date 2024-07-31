@@ -13,3 +13,6 @@
 //        this(400, 0, 0);
 //    }
 //}
+
+
+// weight *= 1e5 to do infinite mass

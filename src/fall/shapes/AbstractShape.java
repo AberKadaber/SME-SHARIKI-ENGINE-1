@@ -2,6 +2,8 @@ package fall.shapes;
 
 import fall.geometry.*;
 
+import java.util.List;
+
 public abstract class AbstractShape implements Shape {
     private Vector velocity = new Vector(0, 0);
     private final Vector acceleration = new Vector(0, -10);
@@ -75,13 +77,19 @@ public abstract class AbstractShape implements Shape {
         // y = kx + b => b = y - kx
         double b = center.getY() - k * center.getX();
 
-        // TODO: our shape always have 2 or more intersections
-//        Dot myIntersection = intersect(k, b);
-//        Dot otherIntersection = other.intersect(k, b);
+        List<Dot> myIntersection = intersect(k, b);
+        List<Dot> otherIntersection = other.intersect(k, b);
 
-//        return myIntersection.distance(center) +
-//                otherIntersection.distance(other.center) >
-//                center.distance(other.center);
-        return false;
+        double mySmallestDistanceToOtherDot = Math.min(
+                center.distance(otherIntersection.get(0)),
+                center.distance(otherIntersection.get(1)));
+
+        double otherSmallestDistanceToMyDot = Math.min(
+                other.center.distance(myIntersection.get(0)),
+                other.center.distance(myIntersection.get(1)));
+
+        return mySmallestDistanceToOtherDot +
+                otherSmallestDistanceToMyDot >
+                center.distance(other.center);
     }
 }

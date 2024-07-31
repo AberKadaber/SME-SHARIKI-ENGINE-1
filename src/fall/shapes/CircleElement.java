@@ -2,7 +2,6 @@ package fall.shapes;
 
 import fall.geometry.Circle;
 import fall.geometry.Dot;
-import fall.geometry.Vector;
 
 import java.util.List;
 import java.awt.*;
