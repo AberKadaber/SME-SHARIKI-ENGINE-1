@@ -12,7 +12,7 @@ public class CircleBorder extends AbstractShape {
 
     public CircleBorder(double cx, double cy, int radius) {
         Dot center = new Dot(cx, cy);
-        double weight = Math.PI * radius * radius * 1e5;
+        double weight = Math.PI * radius * radius * 1e5; // very big weight for ordinary Shape it looks like infinity
         super(weight, center, false);
         this.radius = radius;
         this.cx = cx;
