@@ -36,6 +36,6 @@ public class Dot {
 
     @Override
     public String toString() {
-        return "x: " + x + ", y: " + y;
+        return "x: %f y: %f".formatted(x, y);
     }
 }

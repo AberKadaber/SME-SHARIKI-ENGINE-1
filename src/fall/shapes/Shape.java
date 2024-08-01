@@ -33,7 +33,7 @@ public interface Shape {
      * @return intersection our shape with line <code>y = k * x + b</code>
      * <br> and return null if out shape don't have any intersection with this line
      */
-    List<Dot> intersect(double k, double b);
+    List<Dot> intersect(double k);
 
     /**
      *

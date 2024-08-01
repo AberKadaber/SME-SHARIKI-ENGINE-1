@@ -10,7 +10,7 @@ import java.awt.*;
 public class CircleElement extends AbstractShape {
     private final Circle currentPosition;
 
-    public CircleElement(int cx, int cy, int radius) {
+    public CircleElement(double cx, double cy, int radius) {
         Dot center = new Dot(cx, cy);
         Circle circ = new Circle(radius, center);
         double weight = Math.PI * radius * radius;
@@ -31,7 +31,7 @@ public class CircleElement extends AbstractShape {
     }
 
     @Override
-    public List<Dot> intersect(double k, double b) {
+    public List<Dot> intersect(double k) {
         double r = currentPosition.getRadius();
         double dx = Math.sqrt(r * r / (1 + k * k));
         double dy = Math.sqrt(r * r * k * k / (1 + k * k));
@@ -39,6 +39,11 @@ public class CircleElement extends AbstractShape {
         return List.of(
                 new Dot(center.getX() + dx, center.getY() + Math.signum(k) * dy),
                 new Dot(center.getX() - dx, center.getY() - Math.signum(k) * dy));
+    }
+
+    @Override
+    public String toString() {
+        return "movable circle:\ncenter: " + currentPosition.getCenter().toString() + "\nradius: " + currentPosition.getRadius() + "\n";
     }
 }
 

@@ -60,22 +60,19 @@ public abstract class AbstractShape implements Shape {
         Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi);
         Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi);
 
-        if (isMovable) {
-            velocity = newV1;
-        }
-
-        if (other.isMovable) {
-            other.velocity = newV2;
-        }
+        velocity = newV1;
+        other.velocity = newV2;
     }
 
     /**
-     * check if c лежит на отрезке [a, b]
+     * check if <code>c</code> lies on the segment <code>[a, b]</code>
+     * <br>
+     * <b>Important:</b> <code>c</code> must lies on the line <code>(a, b)</code> or really neat it
      *
-     * @param a first end of отрезок
-     * @param b second end of отрезок
+     * @param a first end of segment
+     * @param b second end of segment
      * @param c dot to check
-     * @return <code>c</code> лежит на отрезке [a, b]
+     * @return <code>c</code> lies on the segment <code>[a, b]</code>
      */
     private boolean between(Dot a, Dot b, Dot c) {
         return a.distance(c) <= a.distance(b) && b.distance(c) <= b.distance(a);
@@ -85,16 +82,13 @@ public abstract class AbstractShape implements Shape {
     public boolean intersect(AbstractShape other) {
         double deltaX = center.getX() - other.center.getX();
         double deltaY = center.getY() - other.center.getY();
-        double k = Math.atan(deltaY / deltaX);
-        // y = kx + b => b = y - kx
-        double b = center.getY() - k * center.getX();
-
-        List<Dot> myIntersection = intersect(k, b);
-        List<Dot> otherIntersection = other.intersect(k, b);
+        double k = deltaY / deltaX;
+        List<Dot> myIntersection = intersect(k);
+        List<Dot> otherIntersection = other.intersect(k);
 
         int cnt = 0;
         for (Dot d : otherIntersection) {
-            if (between(myIntersection.getFirst(), myIntersection.get(1), d)) {
+            if (between(myIntersection.get(0), myIntersection.get(1), d)) {
                 cnt += 1;
             }
         }

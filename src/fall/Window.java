@@ -8,11 +8,9 @@ import java.awt.*;
 import java.util.List;
 
 public class Window extends JPanel {
-
     private final int width = 800;
     private final int height = 800;
-    private final int delay = 6;
-
+    private final int delay = 10;
 
     private final List<Shape> shapes = List.of(
             new CircleBorder(0, 0, 300),
@@ -20,6 +18,17 @@ public class Window extends JPanel {
             new CircleElement(-100, 0, 100),
             new CircleElement(0, 100, 25)
     );
+
+    private boolean hasIntersection() {
+        for (Shape s1 : shapes) {
+            for (Shape s2 : shapes) {
+                if (s1.intersect((AbstractShape) s2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public Window() {
         JFrame frame = new JFrame("fall");
@@ -39,7 +48,7 @@ public class Window extends JPanel {
             for (Shape s1 : shapes) {
                 for (Shape s2 : shapes) {
                     if (s1 != s2 && s1.intersect((AbstractShape) s2)) {
-                        while (s1.intersect((AbstractShape) s2)) {
+                        while (hasIntersection()) {
                             for (Shape s : shapes) {
                                 s.simulate(-0.1 / delay);
                             }
