@@ -17,7 +17,7 @@ public interface Shape {
      *
      * @param other other shape that has a collision with our shape
      */
-    void update(AbstractShape other);
+    void update(AbstractShape other); // TODO: AbstractShape -> Shape and cast into realisation
 
     /**
      * Method to draw shape on the screen

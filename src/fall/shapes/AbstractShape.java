@@ -44,16 +44,25 @@ public abstract class AbstractShape implements Shape {
 
         double cosPhi = Math.abs(deltaX) / distanceBetweenCenters;
 
+        Vector v1 = velocity.rotateByTrig(cosPhi, sinPhi);
         Vector v2 = other.velocity.rotateByTrig(cosPhi, sinPhi);
 
+        double newV1_y = v1.getY();
         double newV2_y = v2.getY();
+        double vx1 = v1.getX();
         double vx2 = v2.getX();
         double w1 = weight;
         double w2 = other.weight;
 
-        double newV2_x = ((w2 - w1) * vx2) / (w1 + w2);
+        double newV1_x = ((w1 - w2) * vx1 + 2 * w2 * vx2) / (w1 + w2);
+        double newV2_x = ((w2 - w1) * vx2 + 2 * w1 * vx1) / (w1 + w2);
 
+        Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi);
         Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi);
+
+        if (isMovable) {
+            velocity = newV1;
+        }
 
         if (other.isMovable) {
             other.velocity = newV2;

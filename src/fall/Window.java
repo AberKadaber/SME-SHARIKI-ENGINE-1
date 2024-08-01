@@ -16,8 +16,8 @@ public class Window extends JPanel {
 
     private final List<Shape> shapes = List.of(
             new CircleBorder(0, 0, 300),
-//            new CircleElement(100, 0, 50),
-//            new CircleElement(-100, 0, 100),
+            new CircleElement(100, 0, 50),
+            new CircleElement(-100, 0, 100),
             new CircleElement(0, 100, 25)
     );
 
