@@ -48,6 +48,8 @@ public class Window extends JPanel {
             for (Shape s1 : shapes) {
                 for (Shape s2 : shapes) {
                     if (s1 != s2 && s1.intersect((AbstractShape) s2)) {
+                        System.out.println(s1);
+                        System.out.println(s2);
                         while (hasIntersection()) {
                             for (Shape s : shapes) {
                                 s.simulate(-0.1 / delay);

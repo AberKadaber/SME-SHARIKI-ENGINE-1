@@ -6,10 +6,19 @@ import fall.geometry.Dot;
 import java.util.List;
 import java.awt.*;
 
-
+/**
+ * Class for describing movable circles that will bounce back from borders and other movable circles
+ */
 public class CircleElement extends AbstractShape {
     private final Circle currentPosition;
 
+    /**
+     * Create new <code>CircleElement</code> with the specified radius and coordinates of center
+     *
+     * @param radius radius of the element
+     * @param cx     x coordinate of element
+     * @param cy     y coordinate of element
+     */
     public CircleElement(double cx, double cy, int radius) {
         Dot center = new Dot(cx, cy);
         Circle circ = new Circle(radius, center);
@@ -43,7 +52,11 @@ public class CircleElement extends AbstractShape {
 
     @Override
     public String toString() {
-        return "movable circle:\ncenter: " + currentPosition.getCenter().toString() + "\nradius: " + currentPosition.getRadius() + "\n";
+        return """
+                circle element:
+                center: x: %f, y: %f
+                radius: %d
+                """.formatted(center.getX(), center.getY(), currentPosition.getRadius());
     }
 }
 

@@ -1,7 +1,7 @@
 package fall.geometry;
 
 /**
- * class to describe geometrical vector
+ * Class to describe geometrical vector
  */
 public class Vector {
     private final Dot direction;
@@ -15,12 +15,14 @@ public class Vector {
     public Vector(double x, double y) {
         this.direction = new Dot(x, y);
     }
+
     /**
      * @return x coordinate of vector
      */
     public double getX() {
         return direction.getX();
     }
+
     /**
      * @return y coordinate of vector
      */
@@ -82,8 +84,8 @@ public class Vector {
     /**
      * Rotates our vector by the angle <code>phi</code>
      * <list>
-     *     <li>if <code>phi</code> is positive - counterclockwise </li>
-     *     <li>if <code>phi</code> is negative - clockwise </li>
+     * <li>if <code>phi</code> is positive - counterclockwise </li>
+     * <li>if <code>phi</code> is negative - clockwise </li>
      * </list>
      *
      * @param phi angle to rotate
