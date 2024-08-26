@@ -2,27 +2,30 @@ package fall.shapes;
 
 import fall.geometry.*;
 
+import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractShape implements Shape {
     private Vector velocity = new Vector(0, 0);
     private final Vector acceleration = new Vector(0, -10);
 
     private final double weight;
-    public Dot center; // TODO protected
+    protected Dot center;
 
-    boolean isMovable;
+    protected Color color = Color.WHITE;
+
     /*
     I need to solve some physic problem to add shapes with rotation
+
     protected double angle = 0;
     private double angularVelocity = 0;
     private final double CentralMomentOfInertia;
     */
 
-    AbstractShape(double weight, Dot center, boolean isMovable) {
+    AbstractShape(double weight, Dot center) {
         this.weight = weight;
         this.center = center;
-        this.isMovable = isMovable;
     }
 
     @Override
@@ -57,12 +60,20 @@ public abstract class AbstractShape implements Shape {
         double newV1_x = ((w1 - w2) * vx1 + 2 * w2 * vx2) / (w1 + w2);
         double newV2_x = ((w2 - w1) * vx2 + 2 * w1 * vx1) / (w1 + w2);
 
-        Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi);
-        Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi);
-
+        // 0.995 is no energy loss
+        Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi).constMul(0.997);
+        Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi).constMul(0.997);
         velocity = newV1;
         other.velocity = newV2;
+
+        updateColor();
+        other.updateColor();
     }
+
+    // TODO: change collision logic: from drawing line from center to center and intersect with shapes, we can split
+    //  shape for some segments and intersect this segments
+    //  for this we need new method getSegments which returns List<Segment>
+    //  also we need Class Segment with function bool intersect(Segment other)
 
     /**
      * check if <code>c</code> lies on the segment <code>[a, b]</code>
@@ -83,6 +94,9 @@ public abstract class AbstractShape implements Shape {
         double deltaX = center.getX() - other.center.getX();
         double deltaY = center.getY() - other.center.getY();
         double k = deltaY / deltaX;
+//        System.out.println(center);
+//        System.out.println(other.center);
+//        System.out.println(deltaX + " " + deltaY);
         List<Dot> myIntersection = intersect(k);
         List<Dot> otherIntersection = other.intersect(k);
 
@@ -92,6 +106,37 @@ public abstract class AbstractShape implements Shape {
                 cnt += 1;
             }
         }
+
+        if (cnt == 1) {
+            System.out.println("my center: " + center);
+            System.out.println("other center: " + other.center);
+            System.out.println("my dots: ");
+            for (Dot d : myIntersection) {
+                System.out.println(d);
+            }
+            System.out.println("other dots: ");
+            for (Dot d : otherIntersection) {
+                System.out.println(d);
+            }
+            System.out.println();
+        }
+
         return cnt == 1;
+    }
+
+    private final Map<Color, Color> nextColor = Map.of(
+            Color.WHITE, Color.RED,
+            Color.RED, Color.ORANGE,
+            Color.ORANGE, Color.YELLOW,
+            Color.YELLOW, Color.GREEN,
+            Color.GREEN, Color.CYAN,
+            Color.CYAN, Color.BLUE,
+            Color.BLUE, Color.MAGENTA,
+            Color.MAGENTA, Color.RED
+    );
+
+    @Override
+    public void updateColor() {
+        this.color = nextColor.get(color);
     }
 }
