@@ -14,15 +14,20 @@ public class Window extends JPanel {
 
     private final List<Shape> shapes = List.of(
             new CircleBorder(0, 0, 300),
-            new CircleElement(100, 0, 50),
-            new CircleElement(-100, 0, 100),
+            new CircleElement(200, 0, 50),
+            new CircleElement(-150, 0, 100),
+            new CircleElement(180, 190, 25),
             new CircleElement(0, 100, 25)
     );
 
-    private boolean hasIntersection() {
+    private boolean hasIntersection(Shape s1, Shape s2) {
+        return s1 != s2 && s1.intersect((AbstractShape) s2) && !(s1.isBorder() && s2.isBorder());
+    }
+
+    private boolean hasIntersectionAllShapes() {
         for (Shape s1 : shapes) {
             for (Shape s2 : shapes) {
-                if (s1.intersect((AbstractShape) s2)) {
+                if (hasIntersection(s1, s2)) {
                     return true;
                 }
             }
@@ -47,10 +52,8 @@ public class Window extends JPanel {
             }
             for (Shape s1 : shapes) {
                 for (Shape s2 : shapes) {
-                    if (s1 != s2 && s1.intersect((AbstractShape) s2)) {
-                        System.out.println(s1);
-                        System.out.println(s2);
-                        while (hasIntersection()) {
+                    if (hasIntersection(s1, s2)) {
+                        while (hasIntersectionAllShapes()) {
                             for (Shape s : shapes) {
                                 s.simulate(-0.1 / delay);
                             }
@@ -64,21 +67,11 @@ public class Window extends JPanel {
         timer.start();
     }
 
-//    private final Color[] rainbow = {
-//            Color.RED,
-//            Color.ORANGE,
-//            Color.YELLOW,
-//            Color.GREEN,
-//            Color.CYAN,
-//            Color.BLUE,
-//            Color.MAGENTA,
-//    };
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (Shape shape : shapes) {
-            shape.draw(g, Color.GREEN, width, height);
+            shape.draw(g, width, height);
         }
     }
 }

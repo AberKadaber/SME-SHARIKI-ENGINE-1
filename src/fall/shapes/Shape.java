@@ -24,11 +24,10 @@ public interface Shape {
      * Method to draw shape on the screen
      *
      * @param g      Graphics to draw
-     * @param color  color of our shape
      * @param width  width of screen
      * @param height height of screen
      */
-    void draw(Graphics g, Color color, int width, int height);
+    void draw(Graphics g, int width, int height);
 
     /**
      * @return intersection our shape with line <code>y = k * x</code> that passes through the center of the shape
@@ -44,4 +43,19 @@ public interface Shape {
      * @return is there an intersection
      */
     boolean intersect(AbstractShape other);
+
+    /**
+     * This method return whether our shape is a border.
+     * <br> It uses for calculating intersections between all shapes. For example, we need to use 2 borders that
+     * intersect together, but we don't need to move them. This method helps us to separate border-border collision from
+     * border-movable element collision.
+     *
+     * @return is our shape a border
+     */
+    boolean isBorder();
+
+    /**
+     * This method change color of shape after collision
+     */
+    void updateColor();
 }
