@@ -13,7 +13,7 @@ public abstract class AbstractShape implements Shape {
     private final double weight;
     protected Dot center;
 
-    protected Color color = Color.WHITE;
+    protected Color color = Color.RED;
 
     /*
     I need to solve some physic problem to add shapes with rotation
@@ -61,8 +61,8 @@ public abstract class AbstractShape implements Shape {
         double newV2_x = ((w2 - w1) * vx2 + 2 * w1 * vx1) / (w1 + w2);
 
         // 0.995 is no energy loss
-        Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi).constMul(0.997);
-        Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi).constMul(0.997);
+        Vector newV1 = new Vector(newV1_x, newV1_y).rotateByTrig(cosPhi, -sinPhi).constMul(0.996);
+        Vector newV2 = new Vector(newV2_x, newV2_y).rotateByTrig(cosPhi, -sinPhi).constMul(0.996);
         velocity = newV1;
         other.velocity = newV2;
 
@@ -94,9 +94,6 @@ public abstract class AbstractShape implements Shape {
         double deltaX = center.getX() - other.center.getX();
         double deltaY = center.getY() - other.center.getY();
         double k = deltaY / deltaX;
-//        System.out.println(center);
-//        System.out.println(other.center);
-//        System.out.println(deltaX + " " + deltaY);
         List<Dot> myIntersection = intersect(k);
         List<Dot> otherIntersection = other.intersect(k);
 
@@ -107,25 +104,10 @@ public abstract class AbstractShape implements Shape {
             }
         }
 
-        if (cnt == 1) {
-            System.out.println("my center: " + center);
-            System.out.println("other center: " + other.center);
-            System.out.println("my dots: ");
-            for (Dot d : myIntersection) {
-                System.out.println(d);
-            }
-            System.out.println("other dots: ");
-            for (Dot d : otherIntersection) {
-                System.out.println(d);
-            }
-            System.out.println();
-        }
-
         return cnt == 1;
     }
 
     private final Map<Color, Color> nextColor = Map.of(
-            Color.WHITE, Color.RED,
             Color.RED, Color.ORANGE,
             Color.ORANGE, Color.YELLOW,
             Color.YELLOW, Color.GREEN,

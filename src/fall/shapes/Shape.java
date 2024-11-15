@@ -24,7 +24,6 @@ public interface Shape {
      * Method to draw shape on the screen
      *
      * @param g      Graphics to draw
-     * @param color  color of our shape
      * @param width  width of screen
      * @param height height of screen
      */

@@ -23,6 +23,7 @@ public class CircleBorder extends AbstractShape {
         double weight = Math.PI * radius * radius * 1e5; // very big weight for ordinary Shape it looks like infinity
         super(weight, center);
         this.radius = radius;
+        this.color = Color.WHITE;
     }
 
     @Override

@@ -12,31 +12,15 @@ public class Window extends JPanel {
     private final int height = 800;
     private final int delay = 10;
 
-    /*
-     circles move out from border
-     private final List<Shape> shapes = List.of(
-            new CircleBorder(0, 0, 300),
-            new CircleElement(200, 0, 50),
-            new CircleElement(-150, 0, 100),
-            new CircleElement(0, 100, 25)
-    );
-     */
-
     private final List<Shape> shapes = List.of(
             new CircleBorder(0, 0, 300),
             new CircleElement(200, 0, 50),
             new CircleElement(-150, 0, 100),
-            new CircleElement(220, 220, 25),
+            new CircleElement(180, 190, 25),
             new CircleElement(0, 100, 25)
     );
 
-//    private final List<Shape> shapes = List.of(
-//            new CircleBorder(0, 0, 300),
-//            new SquareElement(1, 100, 100),
-//            new CircleElement(-100, 10, 50)
-//    );
-
-    private  boolean hasIntersection(Shape s1, Shape s2) {
+    private boolean hasIntersection(Shape s1, Shape s2) {
         return s1 != s2 && s1.intersect((AbstractShape) s2) && !(s1.isBorder() && s2.isBorder());
     }
 
